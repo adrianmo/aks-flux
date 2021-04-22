@@ -5,7 +5,7 @@ metadata:
   name: demoapp
   namespace: demoapp
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   selector:
     app: demoapp
   ports:
