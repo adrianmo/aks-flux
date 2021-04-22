@@ -7,7 +7,7 @@ metadata:
 spec:
   type: ClusterIP
   selector:
-    app: aspnetapp
+    app: demoapp
   ports:
     - protocol: TCP
       port: 80
