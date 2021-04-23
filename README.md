@@ -1,6 +1,6 @@
 # aks-flux
 
-This repo is intented as a guidance on how to create a GitOps workflow with Azure Kubernetes Service (AKS) and Flux CD, including secret management with Mozilla SOPS and Azure Key Vault. 
+This repo is intented as a guidance on how to create a GitOps workflow with Azure Kubernetes Service (AKS) and Flux CD, including secret management with Mozilla SOPS and Azure Key Vault.
 
 By following the steps in this repo you are going to learn how to set up a fully automated GitOps workflow where your apps will be automatically deployed when you update their definitions in the repo. First, we will create a cluster in [Azure Kubernetes Service (AKS)](https://azure.microsoft.com/en-us/services/kubernetes-service) and configure Flux CD. Then, we will create a sample demo application. And, finally, we will learn how to do secret management in a GitOps way with Mozilla SOPS and Azure Key Vault.
 
@@ -539,6 +539,8 @@ EOF
 
 SOPS will use the logged in user in AZ CLI, therefore, make sure the logged in user has "encrypt" and "decrypt" Key Permissions as shown below.
 
+![Key Permissions](images/key-permissions.jpg)
+
 You can also add those permissions with the following commands.
 
 ```
@@ -582,10 +584,13 @@ sops:
     version: 3.7.1
 ```
 
-We can now delete the plain secret and commit the encrypted secret to the directory configured in our Kustomization.
+We can now delete the plain secret and push the encrypted secret to the repo.
 
 ```
 rm secret.yaml
+git add manifests/secret.enc.yaml
+git commit -m "Add encrypted secret"
+git push
 ```
 
 Flux will read the encrypted secret, decrypt it using the identity and the key, and apply it.
