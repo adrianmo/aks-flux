@@ -1,7 +1,12 @@
-# gitops-demo
+# aks-flux
 
+This repo is intented as a guidance on how to create a GitOps workflow with Azure Kubernetes Service (AKS) and Flux CD, including secret management with Mozilla SOPS and Azure Key Vault. 
 
-In this article you are going to learn how to do secret management with Flux CD and Azure Key Vault. First, we will create a Kubernetes cluster in Azure Kubernetes Service (AKS). Then, we will install and configure Flux CD to automatically sync our manifests from the Git repository to the cluster. Finally, we configure Mozilla SOPS in Flux CD, which will use a cryptographic key from Key Vault to decrypt our secrets.
+By following the steps in this repo you are going to learn how to set up a fully automated GitOps workflow where your apps will be automatically deployed when you update their definitions in the repo. First, we will create a cluster in [Azure Kubernetes Service (AKS)](https://azure.microsoft.com/en-us/services/kubernetes-service) and configure Flux CD. Then, we will create a sample demo application. And, finally, we will learn how to do secret management in a GitOps way with Mozilla SOPS and Azure Key Vault.
+
+## Architecture
+
+...
 
 ## Create a Kubernetes cluster
 
