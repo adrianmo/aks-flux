@@ -1,0 +1,11 @@
+---
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: aad-pod-identity
+  namespace: default
+spec:
+  chart:
+    repository: https://raw.githubusercontent.com/Azure/aad-pod-identity/master/charts
+    name: aad-pod-identity
+    version: 4.0.0
