@@ -81,9 +81,11 @@ git clone git@github.com:adrianmo/gitops-demo.git
 cd gitops-demo
 ```
 
-Create a GitHub Personal Access Token with full access to the repo scope, and export the token, your GitHub username, and the AKS cluster name.
+Create a GitHub Personal Access Token with full access to the repo scope.
 
-adrianmo_0-1619081409159.png
+![Personal Access Token](images/personal-access-token.jpg)
+
+Export the token, your GitHub username, and the AKS cluster name.
 
 ```
 export GITHUB_TOKEN=<your-token>
@@ -612,4 +614,28 @@ password:  10 bytes
 username:  5 bytes
 ```
 
-We have now completed the configuration.
+From this point on, Flux will keep your app up to date with the latest Kubernetes definitions in your repository, including secrets.
+
+## Next steps
+
+
+
+### Automatic image updates
+
+Flux has a couple of optional components called [Image Automation Controllers](https://toolkit.fluxcd.io/components/image/controller/), which can monitor a container registry and detect when new image tags are uploaded. Then, they can automatically update your deployments to roll out an update to the new container image. Check the [official documentation](https://toolkit.fluxcd.io/guides/image-update/) to know more.
+
+### Keep Flux up to date
+
+There are [multiples ways](https://toolkit.fluxcd.io/guides/installation/#upgrade) to keep the Flux components up to date when new versions are released.
+
+Flux's system components are defined in the `./clusters/${CLUSTER_NAME}/flux-system/gotk-components.yaml` manifest file, therefore, if we regenerate that file with a newer version of Flux (i.e. running `flux install --export ./clusters/${CLUSTER_NAME}/flux-system/gotk-components.yaml`), the manifests will be updated with the new container images and configurations and the Flux system running in the cluster will apply those changes and update itself.
+
+The above procedure can be turned into a scheduled CI workflow and create a Pull Request when changes are made to the manifests, giving us the possibility to review and approve the changes before they are applied. An example implementation of this workflow can be found [here](https://github.com/adrianmo/aks-flux/.github/workflows/update-flux.yaml).
+
+### Notifications and monitoring
+
+Since there are many operations that happen automatically, it can be become quite challenging to understand what is going on in our cluster. Therefore, it is crucial to know the state of our system at any time, but especially when things go south.
+
+With Flux we can configure [Notifications](https://toolkit.fluxcd.io/guides/notifications/) to forward events to collaboration and messaging apps like Microsoft Teams or Slack, and also to Git repositories in the form of commit statuses.
+
+Flux also comes with a [Monitoring](https://toolkit.fluxcd.io/guides/monitoring/) stack composed of Prometheus, for metric collection, and Grafana dashboards, for displaying the control plane resource usage and reconciliation stats.
