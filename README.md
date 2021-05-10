@@ -1,6 +1,6 @@
 # aks-flux
 
-This repo is intented as a guidance on how to create a GitOps workflow with [Azure Kubernetes Service (AKS)](https://azure.microsoft.com/en-us/services/kubernetes-service/) and [Flux CD](https://github.com/fluxcd/flux), including secret management with [Mozilla SOPS](https://github.com/mozilla/sops) and [Azure Key Vault](https://azure.microsoft.com/en-us/services/key-vault/).
+This repo is intented as a guidance on how to create a GitOps workflow with [Azure Kubernetes Service (AKS)](https://azure.microsoft.com/en-us/services/kubernetes-service/) and [Flux CD](https://github.com/fluxcd/flux2), including secret management with [Mozilla SOPS](https://github.com/mozilla/sops) and [Azure Key Vault](https://azure.microsoft.com/en-us/services/key-vault/).
 
 By following the steps in this repo you are going to learn how to set up a fully automated GitOps workflow where your apps will be automatically deployed when you update their definitions in the repo. First, we will create a cluster in AKS and configure Flux. Then, we will create a sample demo application. And, finally, we will learn how to do secret management in a GitOps way with Mozilla SOPS and Azure Key Vault.
 
@@ -16,7 +16,7 @@ export LOCATION=westeurope
 export CLUSTER_NAME=GitOpsDemoCluster
 ```
 
-First, create a resource group to contain all the resource that we will create as part of this tutorial. Feel free to use your own resource names and locations.
+Create a resource group to contain all the resource that we will create as part of this guide.
 
 ```
 az group create -n $RESOURCE_GROUP_NAME -l $LOCATION
@@ -72,7 +72,7 @@ The output should be something like this.
 ✔ prerequisites checks passed
 ```
 
-We are going to connect Flux CD to a GitHub repository, however, you can configure Flux with any other Git repository. Check the bootstrap section of the Flux CD installation guide to learn how to configure Flux with other Git services like Azure Repos.
+We are going to connect Flux CD to a GitHub repository, however, you can configure Flux with any other Git repository. Check the [bootstrap section](https://toolkit.fluxcd.io/guides/installation/#bootstrap) of the Flux CD installation guide to learn how to configure Flux with other Git services like Azure Repos.
 
 Create a GitHub repository and clone it locally.
 
@@ -81,7 +81,7 @@ git clone git@github.com:adrianmo/gitops-demo.git
 cd gitops-demo
 ```
 
-Create a GitHub Personal Access Token with full access to the repo scope.
+[Create a GitHub Personal Access Token](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token) with full access to the repo scope.
 
 ![Personal Access Token](images/personal-access-token.jpg)
 
@@ -141,7 +141,7 @@ git pull origin main
 
 Now that the Flux system is up and running, let's configure the GitOps for our application called "demoapp".
 
-Since we are using the same repository for both the Flux system and our app, we will create a `Kustomization` referencing the same "flux-system" source, however, you could use different repositories for Flux and your app. Check the Flux CD getting started guide for more information about creating additional repository sources.
+Since we are using the same repository for both the Flux system and our app, we will create a `Kustomization` referencing the same "flux-system" source, however, you could use different repositories for Flux and your app. Check the Flux CD [getting started guide](https://toolkit.fluxcd.io/get-started/#add-podinfo-repository-to-flux) for more information about creating additional repository sources.
 
 ```
 flux create kustomization demoapp \
@@ -479,7 +479,7 @@ EOF
 
 We also have to tell the kustomize-controller that our app Kustomization needs to use SOPS as the decryption provider and therefore be able to decrypt certain fields of our manifests.
 
-Update the kustomization YAML file in `clusters/$CLUSTER_NAME/demoapp-kustomization.yaml` add the `spec.decryption` block as shown below.
+Update the kustomization YAML file in `clusters/$CLUSTER_NAME/demoapp-kustomization.yaml` and add the `spec.decryption` block as shown below.
 
 ```yaml
 ---
