@@ -1,0 +1,9 @@
+---
+apiVersion: image.toolkit.fluxcd.io/v1alpha1
+kind: ImageRepository
+metadata:
+  name: demoapp
+  namespace: demoapp
+spec:
+  image: docker.io/adrianmo/demoapp
+  interval: 1m0s
