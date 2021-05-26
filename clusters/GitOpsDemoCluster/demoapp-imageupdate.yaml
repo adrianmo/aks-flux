@@ -1,5 +1,5 @@
 ---
-apiVersion: image.toolkit.fluxcd.io/v1alpha1
+apiVersion: image.toolkit.fluxcd.io/v1alpha2
 kind: ImageUpdateAutomation
 metadata:
   name: demoapp
@@ -12,11 +12,10 @@ spec:
   commit:
     authorEmail: fluxcdbot@users.noreply.github.com
     authorName: fluxcdbot
-    messageTemplate: '{{range .Updated.Images}}{{println .}}{{end}}'
+    messageTemplate: "{{range .Updated.Images}}{{println .}}{{end}}"
   interval: 1m0s
   push:
     branch: main
   update:
     path: ./manifests
     strategy: Setters
-
