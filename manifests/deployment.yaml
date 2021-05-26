@@ -16,7 +16,9 @@ spec:
     spec:
       containers:
         - name: demoapp
-          image: "mcr.microsoft.com/dotnet/core/samples:aspnetapp"
+          image: docker.io/tgndevs/demoapp:1.9.5 # {"$imagepolicy": "tgndevs:demoapp"}
           ports:
-            - containerPort: 80
-              protocol: TCP
+            - containerPort: 8080
+          # env:
+          # - name: MESSAGE
+          #   value: Hello World!

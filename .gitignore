@@ -1,0 +1,3 @@
+.sops.yaml
+secret.yaml
+node_modules/
