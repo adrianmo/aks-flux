@@ -5,17 +5,21 @@ metadata:
   name: demoapp
   namespace: demoapp
 spec:
-  checkout:
-    branch: main
-    gitRepositoryRef:
-      name: demoapp
-  commit:
-    authorEmail: fluxcdbot@users.noreply.github.com
-    authorName: fluxcdbot
-    messageTemplate: "{{range .Updated.Images}}{{println .}}{{end}}"
   interval: 1m0s
-  push:
-    branch: main
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  git:
+    checkout:
+      ref:
+        branch: main
+    commit:
+      author:
+        email: fluxcdbot@users.noreply.github.com
+        name: fluxcdbot
+      messageTemplate: "{{range .Updated.Images}}{{println .}}{{end}}"
+    push:
+      branch: main
   update:
     path: ./manifests
     strategy: Setters
