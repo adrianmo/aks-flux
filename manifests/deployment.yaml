@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: demoapp
-          image: docker.io/tgndevs/demoapp:1.9.5 # {"$imagepolicy": "tgndevs:demoapp"}
+          image: docker.io/tgndevs/demoapp:1.9.5 # {"$imagepolicy": "demoapp:demoapp"}
           ports:
             - containerPort: 8080
           # env:
