@@ -198,7 +198,7 @@ spec:
     spec:
       containers:
         - name: demoapp
-          image: "mcr.microsoft.com/dotnet/core/samples:aspnetapp"
+          image: "mcr.microsoft.com/dotnet/samples:aspnetapp"
           ports:
             - containerPort: 80
               protocol: TCP
